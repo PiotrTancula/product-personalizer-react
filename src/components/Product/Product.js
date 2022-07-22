@@ -21,8 +21,28 @@ const Product = props => {
     return setCurrentColor(color);
   }
 
-  const getPrice = (size) => {
-    console.log(props.sizes);
+  const getPrice = () => {
+    // console.log(props.sizes);
+    const sizeData = props.sizes.find(size => size.name === currentSize);
+    return sizeData.additionalPrice + props.basePrice;
+  }
+
+  const collectName = (name) => {
+    const capitalized = name.charAt(0).toUpperCase() + name.slice(1) + ` shirt`;
+    // console.log(capitalized);
+    return capitalized;
+  }
+
+
+
+  const addToCart = (event) => {
+    event.preventDefault();
+    console.log('Summary');
+    console.log('========');
+    console.log(`name : ${ collectName(props.name) }`);
+    console.log(`price : ${getPrice()}`);
+    console.log(`color : ${currentColor}`);
+    console.log(`size : ${currentSize}`);
   }
 
   return (
@@ -38,7 +58,7 @@ const Product = props => {
           <h2 className={styles.name}>{props.title}</h2>
           <span className={styles.price}>Price : {getPrice()}$</span>
         </header>
-        <form>
+        <form onSubmit={addToCart}>
           <div className={styles.sizes}>
             <h3 className={styles.optionLabel}>Sizes</h3>
             <ul className={styles.choices}>
@@ -56,7 +76,7 @@ const Product = props => {
               <li><button type="button" className={clsx(styles.colorWhite)} /></li> */}
             </ul>
           </div>
-          <Button className={styles.button}>
+          <Button type='submit' className={styles.button} >
             <span className="fa fa-shopping-cart" />
           </Button>
         </form>
