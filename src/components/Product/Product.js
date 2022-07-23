@@ -2,7 +2,7 @@ import styles from './Product.module.scss';
 import clsx from 'clsx';
 import Button from '../Button/Button';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import ProductImage from '../ProductImage/ProductImage';
 import ProductOptions from '../ProductOptions/ProductOptions';
 
@@ -23,11 +23,11 @@ const Product = props => {
     return setCurrentColor(color);
   }
 
-  const getPrice = () => {
+  const getPrice = useMemo(() => {
     // console.log(props.sizes);
     const sizeData = props.sizes.find(size => size.name === currentSize);
     return sizeData.additionalPrice + props.basePrice;
-  }
+  }, [currentSize]);
 
   const collectName = (name) => {
     const capitalized = name.charAt(0).toUpperCase() + name.slice(1) + ` shirt`;
@@ -51,7 +51,7 @@ const Product = props => {
       <div>
         <header>
           <h2 className={styles.name}>{props.title}</h2>
-          <span className={styles.price}>Price : {getPrice()}$</span>
+          <span className={styles.price}>Price : {getPrice}$</span>
         </header>
         <ProductOptions sizes={props.sizes} colors={props.colors} addToCart={addToCart} currentSize={currentSize} updateColor={updateColor} updateSize={updateSize} prepareColorClassName={prepareColorClassName} />
       </div>
